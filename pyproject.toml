@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmdiff"
+authors = [
+    {name = "Aitor Mira Abad", email = "itortouch@gmail.com"},
+]
+description = "Compare documents using LLMs."
+requires-python = ">=3.9"
+dependencies = [
+    "langchain == 0.0.*",
+    "openai >= 0.28.0",
+    "chromadb >= 0.4.9",
+    "tiktoken >= 0.4.0",
+    "lark >= 1.1.7"
+]
+dynamic = ["version", "readme"]
+
+[tool.setuptools.dynamic]
+version = {attr = "llmdiff.__version__"}
+readme = {file=["README.md"], content-type="text/markdown"}
+
+[project.optional-dependencies]
+dev = [
+    "pandas >= 2.1.0"
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.black]
+line-length = 120
