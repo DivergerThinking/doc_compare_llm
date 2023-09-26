@@ -1,1 +1,3 @@
 data/secrets*.json
+*.pyc
+.DS_Store
