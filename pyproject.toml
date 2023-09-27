@@ -27,7 +27,7 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.optional-dependencies]
 dev = [
-    "pandas >= 2.1.0"
+    "streamlit >= 1.27.0"
 ]
 
 [tool.ruff]
