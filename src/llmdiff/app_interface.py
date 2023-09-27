@@ -61,7 +61,6 @@ def llm_diff(selected_mod):
         mod_docs={0: st.session_state.modifications[selected_mod]},
         diff_api_params=diff_api_params,
         id_article_api_params=id_article_api_params,
-        verbose=True,
     )
     modified_text = "Los artículos quedan modificados como sigue:"
     for _, v in response.items():
@@ -176,8 +175,6 @@ def app():
             explanation_md_html = HTML_BOX_TEMPLATE.format(text=string_to_markdown(explanation))
             st.markdown(explanation_md_html, unsafe_allow_html=True)
 
-    if st.button("mod_text"):
-        print(st.session_state.modified_text)
     # if st.button("reset_sbox"):
     #     st.session_state.sbox_dis = True
     #     st.session_state.sbox_viz = False

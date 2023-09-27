@@ -81,7 +81,7 @@ En el articulo 3 se elimina el apartado 3.
 Documento consolidado (encapsulado en triple tilde inversa):
 ```
 Artículo 1.
-1. España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico ≤del>la libertad, la justicia, la igualdad y el pluralismo político. </del> la unidad, el respeto y el amor.
+1. España se constituye en un Estado social y democrático de Derecho, que propugna como valores superiores de su ordenamiento jurídico <del>la libertad, la justicia, la igualdad y el pluralismo político. </del> <ins>la unidad, el respeto y el amor.</ins>
 2. La soberanía nacional reside en el pueblo español, del que emanan los poderes del Estado.
 3. <del>La forma política del Estado español es la  Monarquía parlamentaria</del> <ins>La forma política de España es la República parlamentaria.</ins>
 
