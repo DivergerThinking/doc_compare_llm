@@ -14,7 +14,7 @@ Before launching the notebooks it is needed to install the module. Just run the 
 
 `pip install git+https://github.com/DivergerThinking/doc_compare_llm`
 
-If you want to run stramlit too, run the following command too:
+If you want to run streamlit too, run the following command too:
 
 `pip install "llmdiff[dev] @ git+https://github.com/DivergerThinking/doc_compare_llm"`
 
@@ -40,12 +40,12 @@ The notebook mode consists in three different notebooks. Each one covers a diffe
 3. Run `llm_diff.ipynb` skipping the cells within the `dev area`.
 4. Play araound and have some fun.
 
-## Sreamlit web app mode
+## Streamlit web app mode
 
 1. Open a terminal and move to the repo directory.
 2. Run the following command:
 `streamlit run src/llmdiff/app_interface.py`
 3. The web interface will open in your default browser.
-4. Play araound and have some fun.
+4. Play around and have some fun.
 
 Note: This demo is slightly hardcoded for the PDFs at `data` folder. 2008 PDF corresponds to original doc and 2018 to modifications doc.
