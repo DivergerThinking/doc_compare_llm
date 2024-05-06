@@ -1,4 +1,4 @@
-from openai import OpenAI
+import openai
 
 DETECT_ARTICLE_MODIF_SYSTEM_PROMPT = """
 Eres un asistente que identifica en un texto legal los artículos que modifica de otra legislación anterior.
@@ -123,25 +123,23 @@ OPENAI_API_PARAMS_TEMPLATE: dict = {
 }
 
 
-def identify_article(modification_text: str, api_params: dict, oai_client: OpenAI) -> list:
+def identify_article(modification_text: str, api_params: dict) -> list:
     message_dicts = [
         {"role": "system", "content": DETECT_ARTICLE_MODIF_SYSTEM_PROMPT},
         {"role": "user", "content": modif_doc_prompt_prompt.format(mod_doc=modification_text)},
     ]
-    response = oai_client.chat.completions.create(messages=message_dicts , **api_params) # type: ignore
-    response_text = response.choices[0].message.content
+    response_text = openai.ChatCompletion.create(messages=message_dicts, **api_params).choices[0].message.content
     response = eval(response_text)
     assert isinstance(response, list), "Wrong output format:\n{response_text}"
     return response
 
 
-def generate_diff_text(origin_text: str, mod_text: str, api_params: dict, oai_client: OpenAI) -> str:
+def generate_diff_text(origin_text: str, mod_text: str, api_params: dict) -> str:
     message_dicts = [
         {"role": "system", "content": DIFF_SYSTEM_PROMPT},
         {"role": "user", "content": DIFF_GEN_PROMPT.format(orig_doc=origin_text, mod_doc=mod_text)},
     ]
-    response = oai_client.chat.completions.create(messages=message_dicts, **api_params) # type: ignore
-    response_text = response.choices[0].message.content
+    response_text = openai.ChatCompletion.create(messages=message_dicts, **api_params).choices[0].message.content
     return response_text
 
 
@@ -150,18 +148,15 @@ def auto_generate_diff_text(
     mod_docs: dict,
     diff_api_params: dict,
     id_article_api_params: dict,
-    oai_client: OpenAI,
     verbose: bool = False,
 ) -> dict:
     diffed_docs = {}
     for mod_key, mod_doc in mod_docs.items():
-        articles = identify_article(mod_doc, api_params=id_article_api_params, oai_client=oai_client)
+        articles = identify_article(mod_doc, api_params=id_article_api_params)
         for article in articles:
             if verbose:
                 print(mod_key, article)
-            res = generate_diff_text(
-                origin_text=origin_docs[article], mod_text=mod_doc, api_params=diff_api_params, oai_client=oai_client
-            )
+            res = generate_diff_text(origin_text=origin_docs[article], mod_text=mod_doc, api_params=diff_api_params)
             if not res and verbose:
                 print(f"Article {article} not affected by modification {mod_key}")
             diffed_docs.update({article: res})
