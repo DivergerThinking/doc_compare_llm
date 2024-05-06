@@ -189,7 +189,8 @@ def app():
         # st.session_state.modified_text = ""
 
     if st.button("Generar documento modificado", disabled=st.session_state.disable_app):
-        st.session_state.modified_text = llm_diff(selected_mod)
+        with st.spinner("Procesando, en menos de un minuto estará listo."):
+            st.session_state.modified_text = llm_diff(selected_mod)
 
     if st.session_state.modified_text:
         mod_md_html = HTML_BOX_TEMPLATE.format(text=st.session_state.modified_text)
@@ -197,25 +198,16 @@ def app():
 
     if st.session_state.modified_text:
         if st.button("Generar explicación de las modificaciones"):
-            explanation = get_diff_explanation(
-                diff_text=st.session_state.modified_text,
-                api_params={
-                    "model": st.session_state.openai_model,
-                },
-                oai_client=st.session_state.openai_client,
-            )
-            explanation_md_html = HTML_BOX_TEMPLATE.format(text=string_to_markdown(explanation))
-            st.markdown(explanation_md_html, unsafe_allow_html=True)
-
-    # if st.button("reset_sbox"):
-    #     st.session_state.sbox_dis = True
-    #     st.session_state.sbox_viz = False
-    #     st.rerun()
-
-    # if st.button("Limpiar Historial"):
-    #     st.session_state.questions_log = []
-    #     st.session_state.answers_log = {}
-    #     st.sidebar.empty()
+            with st.spinner("Procesando, en breves estará listo."):
+                explanation = get_diff_explanation(
+                    diff_text=st.session_state.modified_text,
+                    api_params={
+                        "model": st.session_state.openai_model,
+                    },
+                    oai_client=st.session_state.openai_client,
+                )
+                explanation_md_html = HTML_BOX_TEMPLATE.format(text=string_to_markdown(explanation))
+                st.markdown(explanation_md_html, unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
