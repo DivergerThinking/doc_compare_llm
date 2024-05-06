@@ -1,3 +1,7 @@
-data/secrets*.json
 *.pyc
 .DS_Store
+*secrets.toml
+*.egg-info*
+*.json
+data/*.pdf
+data/*/*.pdf

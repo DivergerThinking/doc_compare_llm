@@ -1,13 +1,17 @@
-import tempfile
+import logging
 import os
-import openai
 import re
-import fitz
-import streamlit as st
-from text_splitter import clean_source_text, split_by_article, split_by_parentheses_enum_list
-from differ import auto_generate_diff_text
-from diff_explainer import get_diff_explanation
+import tempfile
 
+import fitz
+import openai
+import streamlit as st
+from llmdiff.diff_explainer import get_diff_explanation
+from llmdiff.differ import auto_generate_diff_text
+from llmdiff.text_splitter import clean_source_text, split_by_article, split_by_parentheses_enum_list
+
+# set logging level to info
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 OPENAI_MODEL_MAP = {":rainbow[GPT-4]": "gpt-4", "***GPT-3.5***": "gpt-3.5-turbo-16k"}
 HTML_BOX_TEMPLATE = """<p style="padding: 0 10px 0 10px; background-color: rgb(240, 242, 246); border-radius: 10px";>
@@ -148,7 +152,7 @@ def app():
             "Selecciona la modificación",
             st.session_state.modifications.keys(),
             disabled=st.session_state.disable_app,
-            on_change=change_mod_text_state
+            on_change=change_mod_text_state,
         )
         selected_mod_text = st.session_state.modifications[selected_mod]
         selected_mod_text = string_to_markdown(selected_mod_text)
