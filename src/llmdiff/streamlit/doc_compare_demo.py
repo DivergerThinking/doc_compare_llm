@@ -2,10 +2,17 @@ import logging
 import os
 import re
 import tempfile
+import sys
 
 import fitz
 from openai import OpenAI
 import streamlit as st
+
+# Allows streamlit cloud to import self-contained private reopository
+root_app_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+module_path = f"{root_app_directory}/src"
+sys.path.append(module_path)
+
 from llmdiff.diff_explainer import get_diff_explanation
 from llmdiff.differ import auto_generate_diff_text
 from llmdiff.text_splitter import clean_source_text, split_by_article, split_by_parentheses_enum_list
