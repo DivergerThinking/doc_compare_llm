@@ -24,7 +24,7 @@ def read_pdf(file_path):
     with fitz.open(file_path) as doc:
         whole_text = ""
         for page in doc:
-            text = page.get_text() # type: ignore
+            text = page.get_text()  # type: ignore
             whole_text = whole_text + "\n\n" + text
     return whole_text
 
@@ -42,16 +42,12 @@ def change_mod_text_state():
 def llm_diff(selected_mod):
     diff_api_params = {
         "model": st.session_state.openai_model,
-        # "max_tokens": 2000,
-        "stream": False,
         "n": 1,
         "temperature": 0,
         "top_p": 1,
     }
     id_article_api_params = {
         "model": "gpt-3.5-turbo-0125",
-        # "max_tokens": 2000,
-        "stream": False,
         "n": 1,
         "temperature": 0,
         "top_p": 1,
@@ -125,7 +121,7 @@ def app():
         "Elige qué modelo de OpenAI usar:",
         [":rainbow[GPT-4]", "***GPT-3.5***"],
         captions=[
-            "Modelo más potente y caro, que ejecuta la tarea precisa y correctamente.",
+            "Modelo más potente y caro. Ejecuta la tarea precisa y correctamente.",
             "Modelo equivalente a ChatGPT. No garantiza una ejecución correcta de la tarea.",
         ],
     )
@@ -143,6 +139,29 @@ def app():
             mods_pdf_source = st.file_uploader(
                 "Cargue el PDF de modificaciones de la legislación:", type=["pdf"], key="mods_pdf"
             )
+        if origin_pdf_source is None or mods_pdf_source is None:
+            pdf1, pdf2 = st.columns([1, 1])
+
+            with pdf1:
+                file_path = "./src/llmdiff/streamlit/examples/directiva_gesition_residuos_2008_98.pdf"
+
+                with open(file_path, "rb") as file:
+                    _ = st.download_button(
+                        label="Descarga legislación de ejemplo",
+                        data=file,
+                        file_name="directiva_gesition_residuos_2008_98.pdf",
+                        mime="application/pdf",
+                    )
+            with pdf2:
+                file_path = "./src/llmdiff/streamlit/examples/modificacion_directiva_Gestion_Residuos_2018_851.pdf"
+
+                with open(file_path, "rb") as file:
+                    _ = st.download_button(
+                        label="Descarga modificación de ejemplo",
+                        data=file,
+                        file_name="modificacion_directiva_Gestion_Residuos_2018_851.pdf",
+                        mime="application/pdf",
+                    )
 
         if st.button("Procesar documentos de entrada"):
             process_pdfs(origin_pdf_source, mods_pdf_source)

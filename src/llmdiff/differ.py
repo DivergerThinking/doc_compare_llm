@@ -1,4 +1,5 @@
 from openai import OpenAI
+import logging
 
 DETECT_ARTICLE_MODIF_SYSTEM_PROMPT = """
 Eres un asistente que identifica en un texto legal los artículos que modifica de otra legislación anterior.
@@ -163,6 +164,6 @@ def auto_generate_diff_text(
                 origin_text=origin_docs[article], mod_text=mod_doc, api_params=diff_api_params, oai_client=oai_client
             )
             if not res and verbose:
-                print(f"Article {article} not affected by modification {mod_key}")
+                logging.info(f"Article {article} not affected by modification {mod_key}")
             diffed_docs.update({article: res})
     return diffed_docs
